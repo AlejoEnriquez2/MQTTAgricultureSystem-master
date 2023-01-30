@@ -1,0 +1,145 @@
+[
+    {
+        "id": "1bdbd4f6e170e549",
+        "type": "mqtt out",
+        "z": "7449393f9f978867",
+        "name": "SendData",
+        "topic": "Agriculture/feeding",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2179e31ff141d431",
+        "x": 600,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "45e3d3ca3ea9bb3f",
+        "type": "mqtt in",
+        "z": "7449393f9f978867",
+        "name": "HumidityIn",
+        "topic": "Agriculture/soil_moist",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "2179e31ff141d431",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 120,
+        "wires": [
+            [
+                "388bb24552e043d6"
+            ]
+        ]
+    },
+    {
+        "id": "388bb24552e043d6",
+        "type": "function",
+        "z": "7449393f9f978867",
+        "name": "function 1",
+        "func": "\n\nvar val = msg.payload;\nvar str_array = val.split(',');\nvar numVal = str_array[0]\nvar lastWatering = 0\nif (numVal <= 45){\n    lastWatering += 10}\nelse if(numVal <= 50){\nlastWatering += 4}\nelse if(numVal <= 30){\nlastWatering += 20}\nelse if(numVal <= 10){\nlastWatering += 30}\n\nmsg.payload = String(lastWatering) + \",\" + str_array[1]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "1bdbd4f6e170e549"
+            ]
+        ]
+    },
+    {
+        "id": "400a0639dcc51801",
+        "type": "mqtt in",
+        "z": "7449393f9f978867",
+        "name": "Npk_in",
+        "topic": "Agriculture/npk_val",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "2179e31ff141d431",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "ddf9d98e044c5e6c"
+            ]
+        ]
+    },
+    {
+        "id": "ddf9d98e044c5e6c",
+        "type": "function",
+        "z": "7449393f9f978867",
+        "name": "function 2",
+        "func": "var val = msg.payload;\nvar str_array = val.split(',');\nvar numVal = str_array[0] \nvar lastFeeding = 0\nif (numVal <= 40){\n    lastFeeding += 5}\nelse if (numVal <= 35){\nlastFeeding += 8}\nelse if (numVal <= 30){\nlastFeeding += 10}\n\nmsg.payload = String(lastFeeding) + \",\" + str_array[1]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 260,
+        "wires": [
+            [
+                "c8beb33b1b47303e"
+            ]
+        ]
+    },
+    {
+        "id": "c8beb33b1b47303e",
+        "type": "mqtt out",
+        "z": "7449393f9f978867",
+        "name": "SendData",
+        "topic": "Agriculture/watering",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "2179e31ff141d431",
+        "x": 580,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "2179e31ff141d431",
+        "type": "mqtt-broker",
+        "name": "MQTT-Broker",
+        "broker": "mqttagriculturesystem-master-mqtt-1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]

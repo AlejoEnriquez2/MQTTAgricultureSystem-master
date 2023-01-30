@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  sensors:
+    image: felixnahrstedt/se4gdsmartiotagriculture:sensors
+    build: Sensors/
+    ports: 
+      - "1882:1882"
+    restart: always
+    depends_on:
+      - mqtt
+
+  gateway:
+    image: felixnahrstedt/se4gdsmartiotagriculture:gateway
+    build: Gateway/
+    ports: 
+      - "1881:1881"
+    restart: always
+    depends_on:
+      - mqtt
+
+  actuators:
+    image: nodered/node-red
+    build: Actuators/
+    ports: 
+      - "1880:1880"
+    depends_on:
+      - mqtt
+    volumes:
+      - mynodered-data:/data
+
+  mqtt:
+    image: eclipse-mosquitto
+    build: MQTT/
+    ports:
+      - "1883:1883"
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+      - ./MQTT/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  mosquitto-data:
+  mosquitto-log:
+  mosquitto-config:
+  mynodered-data:
