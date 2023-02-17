@@ -36,3 +36,6 @@ How to run the code (locally)
 - Get into the main folder of the project
 - Run the command "docker-compose up"
 
+Docker Setup: 
+- Docker version 20.10.21, build baeda1f
+- Docker Compose version v2.13.0
