@@ -37,6 +37,11 @@ services:
       - mosquitto-data:/mosquitto/data
       - mosquitto-log:/mosquitto/log
       - ./MQTT/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  
+  server:
+    build: . Server/
+    ports: 
+      - "4000:4000"
 
 volumes:
   mosquitto-data:
