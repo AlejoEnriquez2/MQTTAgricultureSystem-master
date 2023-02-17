@@ -5,13 +5,14 @@ import time
 import pandas as pd
 from csv import writer
 import paho.mqtt.client as paho
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-API_Adress=os.getenv('API_Adress')
-MQTT_Adress=os.getenv('MQTT_Adress')
+import json
 
+with open("variables.json", "r") as f:
+    my_dict = json.load(f)
+
+API_Adress = my_dict["API_Adress"]
+MQTT_Adress = my_dict["MQTT_Adress"]
 
 
 def Nutrition_Actuator(npk_val):
@@ -150,13 +151,13 @@ def get_timestamp(val,seconds=0):
 def paho_client():
     # CLIENT PAHO
     port = 1883
-    broker = f'mqtt://str(MQTT_Adress):{port}/'
+    #broker = f'mqtt://str(MQTT_Adress):{port}/'
     # username = 'mosquittoBroker'
     # password = 'se4gd'
     client_id = f'Solar_Client'
     client = paho.Client(client_id)
     # client.username_pw_set(username,password)
-    if client.connect("str(MQTT_Adress)",1883,60)!=0:
+    if client.connect(str(MQTT_Adress),1883,60)!=0:
         print("Could not connect to MQTT Broker!")
         sys.exit(-1)
     else:

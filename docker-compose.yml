@@ -39,7 +39,7 @@ services:
       - ./MQTT/mosquitto.conf:/mosquitto/config/mosquitto.conf
   
   server:
-    build: . Server/
+    build: Server/
     ports: 
       - "4000:4000"
 

@@ -1,0 +1,4 @@
+{
+    "API_Adress": "https://iotsegd.herokuapp.com/persist/",
+    "MQTT_Adress": "mqttagriculturesystem-master-mqtt-1"
+}

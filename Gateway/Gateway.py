@@ -3,12 +3,14 @@ import sys
 import time
 import paho.mqtt.client as paho
 import requests
-from dotenv import load_dotenv
-import os
+import json
 
-load_dotenv()
-API_Adress=os.getenv('API_Adress')
-MQTT_Adress=os.getenv('MQTT_Adress')
+with open("variables.json", "r") as f:
+    my_dict = json.load(f)
+
+API_Adress = my_dict["API_Adress"]
+MQTT_Adress = my_dict["MQTT_Adress"]
+
 
 
 
@@ -49,7 +51,7 @@ json_thing = {
 def on_message(client, userdata, msg):
     global json_thing
     data = msg.payload.decode("utf-8")
-    [val,time1] = str(data).split(",")
+    [val,time1] = str(data).split(",")    
     time1 = int(float(time1))
 
     if(str(msg.topic)=="Agriculture/solar"):
@@ -93,14 +95,14 @@ def on_message(client, userdata, msg):
 
 def main():
     global json_thing
-    address = "str(MQTT_Adress)"
+    address = str(MQTT_Adress)
     #username = 'mosquittoBroker'
     #password = 'se4gd'
     client = paho.Client("solar_fetcher") # client ID "mqtt-test"
     client.on_connect = on_connect
     client.on_message = on_message
     #client.username_pw_set(username, password)
-    if client.connect("str(MQTT_Adress)",1883,60)!=0:
+    if client.connect(address,1883,60)!=0:
         print("Could not connect to MQTT Broker!")
         sys.exit(-1)
     else:
